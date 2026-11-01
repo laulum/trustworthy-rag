@@ -17,10 +17,54 @@
   h1 { font-size: 1.5rem; line-height: 1.25; margin: 0 0 .4rem; }
   .sub { color: #6b675f; margin: 0 0 2rem; }
   h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: .08em;
-       margin: 2.2rem 0 .6rem; color: #1f4a3d; }
+       margin: 2.4rem 0 .7rem; color: #1f4a3d; }
   @media (prefers-color-scheme: dark) { h2 { color: #9fc2b4; } .sub { color: #9a958b; } }
-  .pending { border-left: 3px solid #a4392b; padding: .6rem 0 .6rem .9rem; }
-  footer { margin-top: 3rem; font-size: .9rem; color: #6b675f; }
+  p { margin: 0 0 1rem; }
+  .lede { font-size: 1.12rem; line-height: 1.5; }
+
+  /* headline figures */
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem 1rem;
+           margin: 1.6rem 0 1.8rem; }
+  .stat .n { font-size: 2.1rem; line-height: 1; font-weight: 600;
+             letter-spacing: -.02em; color: #1f4a3d; }
+  .stat .n.alt { color: #a4392b; }
+  .stat .l { font-size: .88rem; line-height: 1.35; color: #6b675f; margin-top: .35rem; }
+  @media (prefers-color-scheme: dark) {
+    .stat .n { color: #9fc2b4; } .stat .n.alt { color: #d98b76; } .stat .l { color: #9a958b; }
+  }
+
+  /* appeal bars */
+  .bars { margin: .4rem 0 1.3rem; }
+  .bar { margin-bottom: .7rem; }
+  .bar .cap { display: flex; justify-content: space-between; align-items: baseline;
+              gap: 1rem; font-size: .92rem; }
+  .bar .v { color: #6b675f; font-variant-numeric: tabular-nums; }
+  .bar .track { height: .45rem; margin-top: .3rem; border-radius: 3px;
+                background: #e4dfd3; }
+  .bar .fill { height: 100%; border-radius: 3px; background: #2f5d4e; }
+  .bar.hi .cap { color: #a4392b; font-weight: 600; }
+  .bar.hi .cap .v { color: #a4392b; }
+  .bar.hi .fill { background: #a4392b; }
+  @media (prefers-color-scheme: dark) {
+    .bar .v { color: #9a958b; }
+    .bar .track { background: #2e2c24; }
+    .bar .fill { background: #5c8f7c; }
+    .bar.hi .cap, .bar.hi .cap .v { color: #d98b76; }
+    .bar.hi .fill { background: #b8503f; }
+  }
+
+  .pull { border-left: 3px solid #a4392b; padding: .1rem 0 .1rem .9rem;
+          margin: 1.4rem 0; font-size: 1.05rem; }
+  .note { font-size: .92rem; color: #6b675f; }
+  @media (prefers-color-scheme: dark) {
+    .note { color: #9a958b; }
+    .pull { border-left-color: #b8503f; }
+  }
+  ul { padding-left: 1.1rem; margin: 0 0 1rem; }
+  li { margin-bottom: .5rem; }
+  footer { margin-top: 3.4rem; padding-top: 1.2rem; border-top: 1px solid #ddd8cd;
+           font-size: .9rem; color: #6b675f; }
+  @media (prefers-color-scheme: dark) { footer { border-color: #2e2c24; color: #9a958b; } }
 </style>
 
 <h1>Designing for Trustworthiness</h1>
@@ -28,22 +72,134 @@
 redesign in a cultural institution — Lauri Lumme, Ulysseus Joint Master's Degree
 in AI for Business Transformation.</p>
 
-<h2>Evaluation results</h2>
-<div class="pending">
-  <p><strong>Staff evaluation took place on 21 October 2026.</strong>
-  Results are being written up and will be posted here.</p>
+<h2>The result</h2>
+
+<p class="lede">The poster ends on a question: does a check that is sometimes
+wrong still help people calibrate? Four members of the Foundation's staff rated
+ten prepared answers each on 21 October 2026. They separated faithful answers
+from unfaithful ones cleanly — and almost none of that separation came from the
+check.</p>
+
+<div class="stats">
+  <div class="stat">
+    <div class="n">+1.66</div>
+    <div class="l">discrimination: mean gap between faithful and unfaithful
+      answers on a 1–5 scale, positive for all four raters</div>
+  </div>
+  <div class="stat">
+    <div class="n alt">2 / 40</div>
+    <div class="l">justifications that mentioned the verifier flag — both as a
+      prompt to look, neither as a verdict</div>
+  </div>
+  <div class="stat">
+    <div class="n">29 / 30</div>
+    <div class="l">cells in a follow-up retrieval experiment where whether the
+      source passage was retrieved predicted whether the answer was right</div>
+  </div>
+  <div class="stat">
+    <div class="n alt">0</div>
+    <div class="l">clicks on the numbered citations inside the answers, across
+      40 item-views — the event was logged and never fired</div>
+  </div>
 </div>
 
-<h2>What the study is about</h2>
-<p>A citation is generated text. It shows what the model claims, not what the
-sources say. This study builds a Finnish-language retrieval system over one
-museum's publications, adds a deterministic verifier that checks the answer
-against the passages actually retrieved, and evaluates with the institution's
-own staff whether such a check helps people tell a grounded answer from a
-fabricated one.</p>
+<p>Discrimination is a within-rater measure: each participant's unfaithful mean
+subtracted from their own faithful mean, so how generously a person scores
+cancels out. Individual values ran from +0.50 to +2.25. A rater who simply
+followed the flag would score zero, because the design crosses the flag against
+faithfulness — half the flagged answers were faithful, half the unflagged ones
+were not.</p>
+
+<p class="note">Ratings as first given. Three were revised upward after the
+participant read the source panel — three different people, three faithful
+answers, no downward revision anywhere in the forty. Taking the revised figures
+instead moves the mean to +1.81.</p>
+
+<h2>What they actually used</h2>
+
+<p>Each rating was followed by “why that rating?”. The forty answers were coded
+on one axis: what the justification appeals to.</p>
+
+<div class="bars">
+  <div class="bar"><div class="cap"><span>the source text</span><span class="v">17</span></div><div class="track"><div class="fill" style="width:100%"></div></div></div>
+  <div class="bar"><div class="cap"><span>own prior knowledge</span><span class="v">13</span></div><div class="track"><div class="fill" style="width:76.5%"></div></div></div>
+  <div class="bar"><div class="cap"><span>institutional currency</span><span class="v">4</span></div><div class="track"><div class="fill" style="width:23.5%"></div></div></div>
+  <div class="bar"><div class="cap"><span>internal plausibility</span><span class="v">3</span></div><div class="track"><div class="fill" style="width:17.6%"></div></div></div>
+  <div class="bar hi"><div class="cap"><span>the flag</span><span class="v">2</span></div><div class="track"><div class="fill" style="width:11.8%"></div></div></div>
+  <div class="bar"><div class="cap"><span>citation or presentation</span><span class="v">1</span></div><div class="track"><div class="fill" style="width:5.9%"></div></div></div>
+</div>
+
+<p>Thirty of forty justifications rest on the source text or on the
+participant's own expertise. The source panel carried the work the verifier was
+built to do: participants opened 124 of the 160 available source entries, and
+of the item-views where the order could be determined, 33 of 34 read the panel
+straight down from the first entry to the last.</p>
+
+<p>The faithful answers were received almost uniformly — item means between 4.00
+and 4.75. The unfaithful ones ranged from 1.25 to 4.13. What governs trust is
+not whether an answer is unfaithful but whether its unfaithfulness is visible
+against the panel.</p>
+
+<div class="pull">A verifier that flags violations without regard to
+detectability is working the wrong half of the problem.</div>
+
+<h2>Where the system actually failed</h2>
+
+<p>In the same session participants put fifteen questions of their own to the
+system. Six produced a correct, grounded answer; two were correct silences about
+things genuinely absent from the corpus; seven were wrong. A follow-up
+experiment then put five questions through six phrasings each, thirty runs in
+all, and located the source passage in the index for every one. In 29 of the 30
+runs, whether that passage reached the top four retrieved chunks decided whether
+the answer was correct.</p>
+
+<p>One question was answered correctly by exactly one of its six phrasings. Two
+conditions had to hold at once: the journey had to be described as an action
+rather than named as a noun, <em>and</em> the subject's first name had to be left
+out. Adding “Gösta” pulled a competing passage 0.035 closer in embedding space,
+against a winning margin of 0.0002.</p>
+
+<div class="pull">In a corpus about one man, his own name is the main obstacle
+to retrieving facts about him.</div>
+
+<p>The same concentration defeats the verifier from the other side. Its
+proximity check discards query terms appearing in more than 35% of the retrieved
+sentences — which in the case shown on the poster removed <em>Gösta</em>,
+<em>Serlachius</em>, <em>taide</em> and <em>kartano</em>: precisely the words
+standing beside the correct year. And the distance threshold meant to trigger
+refusal sits at a value the observed distances never approach, so the gate could
+not fire at all.</p>
+
+<h2>What follows for design</h2>
+
+<ul>
+  <li><strong>The staff were already calibrated.</strong> The design effort went
+  into a trust signal they did not need and largely did not read. The ceiling on
+  this system is not the user's judgement.</li>
+  <li><strong>Visibility beats verdicts.</strong> The panel of retrieved
+  passages did the work; a named, deterministic check sitting above it was
+  cited twice. Nineteen of forty next moves went outside the system
+  altogether — to the book, the archive, or a colleague.</li>
+  <li><strong>Fix retrieval before fixing trust.</strong> A check can only speak
+  about what was retrieved. When the right passage is not in the top four, every
+  layer downstream is working on the wrong material, and the verifier confirms a
+  wrong answer against the sources that produced it.</li>
+</ul>
+
+<h2>Limitations</h2>
+
+<p class="note">Four participants at one institution, one Finnish-language
+corpus of 29 publications. Participants judged prepared answers replayed from
+logged runs rather than querying live, so that all four saw identical output;
+the free-use queries were live. Justifications were collected after the rating
+and after the panel had been opened, so they are stated reasoning elicited after
+exposure, not intention. Coding was done by one researcher, so no inter-rater
+reliability is reported. Nothing here distinguishes the individual
+participants.</p>
 
 <footer>
   <p>Commissioned by the Gösta Serlachius Fine Arts Foundation, Mänttä, Finland.<br>
   Supervisors: Dr Jorge Ropero, Dr María García Antuña (Universidad de Sevilla),
   Dr Lili Aunimo (Haaga-Helia).</p>
+  <p>Prototype source: <a href="https://github.com/laulum/trustworthy-rag">github.com/laulum/trustworthy-rag</a></p>
 </footer>
